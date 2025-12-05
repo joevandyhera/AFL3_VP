@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "../generated/prisma"
 }
 
@@ -14,28 +14,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       Int    @id @default(autoincrement())
-  username String @db.VarChar(100)
-  email    String @unique @db.VarChar(150)
-  password String @db.VarChar(100)
-
-  todos Todo[]
-
-  @@map("users")
+model Customer {
+  id  Int @id @default(autoincrement())
+  name String @db.VarChar(100)
+  phone_number String @db.VarChar(15)
 }
 
-model Todo {
-  id          Int    @id @default(autoincrement())
-  title       String @db.VarChar(100)
-  description String @db.Text
-  priority    String @db.VarChar(10)
-  due_date    String @db.VarChar(100)
-  status      String @db.VarChar(20)
+model Restaurant {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100)
+  description String @db.VarChar(100)
+  status String @db.VarChar(5)
+}
 
-  user_id Int
-
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@map("todos")
+model Orders {
+  id Int @id @default(autoincrement())
+  customer_id Int
+  restautant_id Int
+  order_time Int
+  estimated_time Int
 }
